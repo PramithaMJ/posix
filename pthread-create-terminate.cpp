@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 
-#define NUM_THREADS 5
+#define NUM_THREADS 10
 
 void *PrintHello(void *threadid)
 {
@@ -26,6 +26,7 @@ int main(int argc, char *argv[])
             printf("ERROR; return code from pthread_create() is %d\n", rc);
             exit(-1);
         }
+
     }
 
     /* Last thing that main() should do */
