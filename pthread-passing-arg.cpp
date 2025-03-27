@@ -13,7 +13,7 @@
 
 #define NUM_THREADS 8
 
-char *messages[NUM_THREADS];
+const char *messages[NUM_THREADS];
 
 void *PrintHello(void *threadid)
 {
@@ -21,7 +21,7 @@ void *PrintHello(void *threadid)
 
     sleep(1);
     taskid = (long)threadid;
-    printf("Thread %d: %s\n", taskid, messages[taskid]);
+    printf("Thread %ld: %s\n", taskid, messages[taskid]);
     pthread_exit(NULL);
 }
 
