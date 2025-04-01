@@ -14,6 +14,7 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/time.h>
 
 /*
 The following structure contains the necessary information
@@ -33,7 +34,7 @@ typedef struct
 /* Define globally accessible variables and a mutex */
 
 #define NUMTHRDS 4
-#define VECLEN 100000
+#define VECLEN 100000000
 DOTDATA dotstr;
 pthread_t callThd[NUMTHRDS];
 pthread_mutex_t mutexsum;
@@ -104,6 +105,11 @@ int main(int argc, char *argv[])
     double *a, *b;
     void *status;
     pthread_attr_t attr;
+    struct timeval start, end;
+    double elapsed_time;
+
+    // Start timing
+    gettimeofday(&start, NULL);
 
     /* Assign storage and initialize values */
 
@@ -145,7 +151,12 @@ int main(int argc, char *argv[])
     }
     /* After joining, print out the results and cleanup */
 
+    gettimeofday(&end, NULL);
+    elapsed_time = (end.tv_sec - start.tv_sec) +
+                   (end.tv_usec - start.tv_usec) / 1000000.0;
+
     printf("Sum =  %f \n", dotstr.sum);
+    printf("Time = %f\n", elapsed_time);
     free(a);
     free(b);
     pthread_mutex_destroy(&mutexsum);

@@ -8,6 +8,7 @@
  ******************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/time.h>
 
 /*
 The following structure contains the necessary information
@@ -23,7 +24,7 @@ typedef struct
     int veclen;
 } DOTDATA;
 
-#define VECLEN 100000
+#define VECLEN 400000000
 DOTDATA dotstr;
 
 /*
@@ -70,6 +71,10 @@ int main(int argc, char *argv[])
 {
     int i, len;
     double *a, *b;
+    struct timeval start, end;
+    double elapsed_time;
+
+    gettimeofday(&start, NULL);
 
     /* Assign storage and initialize values */
     len = VECLEN;
@@ -90,8 +95,14 @@ int main(int argc, char *argv[])
     /* Perform the  dotproduct */
     dotprod();
 
+    // End timing
+    gettimeofday(&end, NULL);
+    elapsed_time = (end.tv_sec - start.tv_sec) +
+                   (end.tv_usec - start.tv_usec) / 1000000.0;
+
     /* Print result and release storage */
     printf("Sum =  %f \n", dotstr.sum);
+    printf("Time = %f \n", elapsed_time);
     free(a);
     free(b);
 }
